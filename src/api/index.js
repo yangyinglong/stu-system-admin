@@ -134,5 +134,17 @@ export default {
   },
   LoginTeacher(params){
     return fetch('/user/loginTeacher', params)
+  },
+  ShowHonorsForTeacher(params){
+    return fetch('/admin/showHonorsForTeacher', params)
+  },
+  ExamHonor(params){
+    return fetch('/admin/examHonor', params)
+  },
+  ShowPapersForTeacher(params){
+    return fetch('/admin/showPapersForTeacher', params)
+  },
+  ExamPaper(params){
+    return fetch('/admin/examPaper', params)
   }
 }

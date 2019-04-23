@@ -134,6 +134,7 @@
                 this.setCookie(this.loginform.name, this.loginform.password, 7, this.loginform.rememberPassword)
                 this.$store.state.userName = result.r.name
                 this.$store.state.loginStatus = result.r.status
+                this.$store.state.state = result.r.state
                 this.dialogLoginVisible = false
               } else {
                 // this.$message.warning("登录失败，请确认用户名和密码。")

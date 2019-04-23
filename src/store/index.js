@@ -10,7 +10,8 @@ const store = new Vuex.Store({
     userName: '登录',
     phone: '',
     loginStatus: 0,
-    createTime: ''
+    createTime: '',
+    state: 1
   },
   getters: {
     userName (state) {
@@ -32,6 +33,7 @@ const store = new Vuex.Store({
       state.phone = loginFormData.phone
       state.loginStatus = loginFormData.status
       state.createTime = loginFormData.createTime
+      state.state = loginFormData.state
     },
     logout (state) {
       state.userId = ''

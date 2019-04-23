@@ -5,10 +5,8 @@ import Register from '@/authorize/Register'
 import ForgotPass from '@/authorize/ForgotPass'
 import UserCenter from '@/authorize/UserCenter'
 import Center from '@/components/operation/Center'
-import LabShow from '@/components/operation/center/labOper/LabShow'
-import LabBeSpeak from '@/components/operation/center/labOper/LabBeSpeak'
-import OrderShow from '@/components/operation/center/orderOper/OrderShow'
-import OrderEdit from '@/components/operation/center/orderOper/OrderEdit'
+import HonorExam from '@/components/operation/center/honorOper/HonorExam'
+import PaperExam from '@/components/operation/center/paperOper/PaperExam'
 
 Vue.use(Router)
 
@@ -40,28 +38,16 @@ const router = new Router({
       component: Center,
       meta: {authRequired: true}
     },
-    {      
-      path: '/labshow',
-      name: 'LabShow',
-      component: LabShow,
-      meta: {authRequired: true}
-    },
-    {      
-      path: '/labbespeak',
-      name: 'LabBeSpeak',
-      component: LabBeSpeak,
+    {     
+      path: '/honorExam',
+      name: 'HonorExam',
+      component: HonorExam,
       meta: {authRequired: true}
     },
     {     
-      path: '/ordershow',
-      name: 'OrderShow',
-      component: OrderShow,
-      meta: {authRequired: true}
-    },
-    {     
-      path: '/orderedit',
-      name: 'OrderEdit',
-      component: OrderEdit,
+      path: '/paperExam',
+      name: 'PaperExam',
+      component: PaperExam,
       meta: {authRequired: true}
     }
   ]
