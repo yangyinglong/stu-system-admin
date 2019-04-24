@@ -146,5 +146,41 @@ export default {
   },
   ExamPaper(params){
     return fetch('/admin/examPaper', params)
+  },
+  ShowPatentsForTeacher(params){
+    return fetch('/admin/showPatentsForTeacher', params)
+  },
+  ExamPatent(params){
+    return fetch('/admin/examPatent', params)
+  },
+  ShowCompetitionsForTeacher(params){
+    return fetch('/admin/showCompetitionsForTeacher', params)
+  },
+  ExamCompetition(params){
+    return fetch('/admin/examCompetition', params)
+  },
+  ShowEntrProsForTeacher(params){
+    return fetch('/admin/showEntrProsForTeacher', params)
+  },
+  ExamEntrPro(params){
+    return fetch('/admin/examEntrPro', params)
+  },
+  ShowInnoProsForTeacher(params){
+    return fetch('/admin/showInnoProsForTeacher', params)
+  },
+  ExamInnoPro(params){
+    return fetch('/admin/examInnoPro', params)
+  },
+  ShowEngiProsForTeacher(params){
+    return fetch('/admin/showEngiProsForTeacher', params)
+  },
+  ExamEngiPro(params){
+    return fetch('/admin/examEngiPro', params)
+  },
+  ShowAcadExchsForTeacher(params){
+    return fetch('/admin/showAcadExchsForTeacher', params)
+  },
+  ExamAcadExch(params){
+    return fetch('/admin/examAcadExch', params)
   }
 }

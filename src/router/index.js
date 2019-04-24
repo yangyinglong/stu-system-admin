@@ -7,6 +7,12 @@ import UserCenter from '@/authorize/UserCenter'
 import Center from '@/components/operation/Center'
 import HonorExam from '@/components/operation/center/honorOper/HonorExam'
 import PaperExam from '@/components/operation/center/paperOper/PaperExam'
+import PatentExam from '@/components/operation/center/patentOper/PatentExam'
+import CompetitionExam from '@/components/operation/center/competitionOper/CompetitionExam'
+import EntrProExam from '@/components/operation/center/entrProOper/EntrProExam'
+import InnoProExam from '@/components/operation/center/innoProOper/InnoProExam'
+import EngiProExam from '@/components/operation/center/engiProOper/EngiProExam'
+import AcadExchExam from '@/components/operation/center/acadExchOper/AcadExchExam'
 
 Vue.use(Router)
 
@@ -48,6 +54,42 @@ const router = new Router({
       path: '/paperExam',
       name: 'PaperExam',
       component: PaperExam,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/patentExam',
+      name: 'PatentExam',
+      component: PatentExam,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/competitionExam',
+      name: 'CompetitionExam',
+      component: CompetitionExam,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/entrProExam',
+      name: 'EntrProExam',
+      component: EntrProExam,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/innoProExam',
+      name: 'InnoProExam',
+      component: InnoProExam,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/engiProExam',
+      name: 'EngiProExam',
+      component: EngiProExam,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/acadExchExam',
+      name: 'AcadExchExam',
+      component: AcadExchExam,
       meta: {authRequired: true}
     }
   ]

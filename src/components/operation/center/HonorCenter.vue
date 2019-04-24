@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import AddHonor from "@/components/operation/center/honorOper/HonorAdd"
 const itermOptions = ['待审核', '已通过']
 export default {
 	name: 'HonorCenter',
@@ -58,7 +57,8 @@ export default {
 					honorLevel: "国家级",
 					honorGrade: "一等",
 	        		status: '待审核',
-	        		score: 0
+	        		score: 0,
+	        		proofMaterialId: '',
 				}			
 			],
 			checkAll: false,
@@ -146,7 +146,6 @@ export default {
 		},
 	},
 	components: {
-		AddHonor
 	},
 }		
 </script>

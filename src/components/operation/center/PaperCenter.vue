@@ -19,14 +19,16 @@
 		</div>
 		<div style="margin-left: 20px; min-height: 465px; width: 1200px">
 			<el-table :data="paperData" v-loading="isDisAble">
-				<el-table-column prop="paperTitle" label="题目" width="220"></el-table-column>
+				<el-table-column prop="name" label="姓名" width="70"></el-table-column>
+				<el-table-column prop="stuId" label="学号" width="90"></el-table-column>
+				<el-table-column prop="paperTitle" label="题目" width="200"></el-table-column>
 				<el-table-column prop="paperGrade" label="级别" width="70"></el-table-column>
-				<el-table-column prop="journalTitle" label="期刊名称" width="240"></el-table-column>
-				<el-table-column prop="ranking" label="作者排名" width="100"></el-table-column>
-				<el-table-column prop="totalNumber" label="作者人数" width="80"></el-table-column>
+				<el-table-column prop="journalTitle" label="期刊名称" width="220"></el-table-column>
+				<el-table-column prop="ranking" label="作者排名" width="50"></el-table-column>
+				<el-table-column prop="totalNumber" label="作者人数" width="50"></el-table-column>
 				<el-table-column prop="paperState" label="论文状态" width="80"></el-table-column>
 				<el-table-column prop="getDate" label="时间" width="100"></el-table-column>
-				<el-table-column prop="score" label="得分" width="100"></el-table-column>
+				<el-table-column prop="score" label="得分" width="50"></el-table-column>
 				<el-table-column prop="status" label="状态" width="70"></el-table-column>
 				<el-table-column fixed="right" label="操作" width="140">
 				<template slot-scope="scope">
@@ -41,7 +43,6 @@
 </template>
 
 <script>
-import AddPaper from "@/components/operation/center/paperOper/PaperAdd"
 const itermOptions = ['待审核', '已通过']
 export default {
 	name: 'PaperCenter',
@@ -51,6 +52,8 @@ export default {
 			loading: true,
 			paperData: [
 				{
+					stuId: '',
+					name: '',
 					paperTitle: '一种新型的马达受力分析',
 					paperGrade: "SCI一区",
 					journalTitle: "Nanoscience＆Nanotechnology",
@@ -151,7 +154,6 @@ export default {
 		},
 	},
 	components: {
-		AddPaper
 	},
 }		
 </script>
