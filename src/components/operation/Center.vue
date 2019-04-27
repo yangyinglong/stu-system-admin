@@ -2,8 +2,10 @@
 	<div class="labcenter-main">
 		<el-tabs tab-position="left" type="border-card" style="min-height: 530px; min-width: 11
 		00px" :value="tagPage">			
-			<el-tab-pane label="学生中心" name="prizeCenter"></el-tab-pane>
-			<el-tab-pane label="荣誉奖项" name="honorCenter"><HonorCenter /></el-tab-pane>
+			<el-tab-pane label="学生中心" name="stuBaseCenter"><StuBaseCenter /></el-tab-pane>
+			<el-tab-pane label="成绩中心" name="scoreCenter">成绩中心</el-tab-pane>
+			<el-tab-pane label="综合素质" name="prizeCenter"><PrizeCenter /></el-tab-pane>
+			<el-tab-pane label="荣誉奖项" name="honorCenter" @tab-click="tabClick"><HonorCenter ref="mychild" /></el-tab-pane>
 			<el-tab-pane label="学术论文" name="paperCenter"><PaperCenter /></el-tab-pane>
 			<el-tab-pane label="发明专利" name="patentCenter"><PatentCenter /></el-tab-pane>
 			<el-tab-pane label="学科竞赛" name="competitionCenter"><CompetitionCenter /></el-tab-pane>
@@ -18,7 +20,7 @@
 </template>
 
 <script>
-import BaseInfo from '@/components/operation/center/BaseInfo'
+import StuBaseCenter from '@/components/operation/center/StuBaseCenter'
 import ScoreCenter from '@/components/operation/center/ScoreCenter'
 import HonorCenter from '@/components/operation/center/HonorCenter'
 import PrizeCenter from '@/components/operation/center/PrizeCenter'
@@ -35,7 +37,7 @@ export default {
 	name: 'Center',
 	data () {
 		return {
-			tagPage: 'honorCenter'
+			tagPage: 'stuBaseCenter'
 		}
 	},
 	created(){
@@ -44,9 +46,12 @@ export default {
 		}
 	},
 	methods: {
+		tabClick() {
+			// this.$refs.mychild.queryForAdmin()
+		}
 	},
 	components: {
-		BaseInfo,
+		StuBaseCenter,
 		ScoreCenter,
 		HonorCenter,
 		PrizeCenter,

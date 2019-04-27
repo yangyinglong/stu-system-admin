@@ -13,7 +13,8 @@ import EntrProExam from '@/components/operation/center/entrProOper/EntrProExam'
 import InnoProExam from '@/components/operation/center/innoProOper/InnoProExam'
 import EngiProExam from '@/components/operation/center/engiProOper/EngiProExam'
 import AcadExchExam from '@/components/operation/center/acadExchOper/AcadExchExam'
-
+import MasterPaperExam from '@/components/operation/center/masterPaperOper/MasterPaperExam'
+import WorkExam from '@/components/operation/center/workOper/WorkExam'
 Vue.use(Router)
 
 const router = new Router({
@@ -90,6 +91,18 @@ const router = new Router({
       path: '/acadExchExam',
       name: 'AcadExchExam',
       component: AcadExchExam,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/masterPaperExam',
+      name: 'MasterPaperExam',
+      component: MasterPaperExam,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/workExam',
+      name: 'WorkExam',
+      component: WorkExam,
       meta: {authRequired: true}
     }
   ]

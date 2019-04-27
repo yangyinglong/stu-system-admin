@@ -182,5 +182,23 @@ export default {
   },
   ExamAcadExch(params){
     return fetch('/admin/examAcadExch', params)
-  }
+  },
+  ShowMasterPapersForTeacher(params){
+    return fetch('/admin/showMasterPapersForTeacher', params)
+  },
+  ExamMasterPaper(params){
+    return fetch('/admin/examMasterPaper', params)
+  },
+  ShowWorksForTeacher(params){
+    return fetch('/admin/showWorksForTeacher', params)
+  },
+  ExamWork(params){
+    return fetch('/admin/examWork', params)
+  },
+  ShowStusForTeacher(params){
+    return fetch('/admin/showStusForTeacher', params)
+  }, 
+  ShowPrizesForTeacher(params){
+    return fetch('/admin/showAllPrizeForTeacher', params)
+  },
 }
