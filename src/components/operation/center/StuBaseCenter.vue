@@ -13,7 +13,7 @@
 	              	</el-checkbox-group>
 				</el-form-item> -->
 				<el-form-item style="margin-left: 800px">
-					<button> 下载文件</button>
+					<el-button type="text" icon="el-icon-download" size="medium" style="font-size: 30px"></el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -110,21 +110,24 @@ export default {
 		},
 		showProofMaterial(index, row){
 			this.$confirm('文件名 ' + row.proofMaterialId, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
+		      confirmButtonText: '确定',
+		      cancelButtonText: '取消',
+		      type: 'warning'
+		    }).then(() => {
+		      this.$message({
+		        type: 'success',
+		        message: '删除成功!'
+		      });
+		    }).catch(() => {
+		      this.$message({
+		        type: 'info',
+		        message: '已取消删除'
+		      });          
+		    });
 		},
+		downloadFile(){
+
+		}
 	},
 	components: {
 	},

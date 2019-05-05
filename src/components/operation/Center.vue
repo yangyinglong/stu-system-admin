@@ -3,7 +3,7 @@
 		<el-tabs tab-position="left" type="border-card" style="min-height: 530px; min-width: 11
 		00px" :value="tagPage">			
 			<el-tab-pane label="学生中心" name="stuBaseCenter"><StuBaseCenter /></el-tab-pane>
-			<el-tab-pane label="成绩中心" name="scoreCenter">成绩中心</el-tab-pane>
+			<el-tab-pane label="成绩中心" name="scoreCenter"><ScoreCenter /></el-tab-pane>
 			<el-tab-pane label="综合素质" name="prizeCenter"><PrizeCenter /></el-tab-pane>
 			<el-tab-pane label="荣誉奖项" name="honorCenter" @tab-click="tabClick"><HonorCenter ref="mychild" /></el-tab-pane>
 			<el-tab-pane label="学术论文" name="paperCenter"><PaperCenter /></el-tab-pane>

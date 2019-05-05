@@ -1,79 +1,25 @@
 <template>
 	<div style="margin: 0 auto; height: 550px">
 		<div style="text-align:center; margin-top: 20px;">
-			<el-form :inline="true" :model="scores" class="demo-form-inline" style="width: 100%" label-width="100px">
-			  <el-form-item label="已修课程数">
-			    <el-input v-model="scores.currNumber" placeholder="课程数" readonly="true" style="width: 150px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="平均分">
-			    <el-input v-model="scores.averageScore" placeholder="平均分" readonly="true" style="width: 150px"></el-input>
-			  </el-form-item>
-			</el-form>
-			<hr style=" height:2px;width: 800px; border:none;border-top:2px dotted #D6D6D6	;" />
-			<el-form :inline="true" :model="scores" class="demo-form-inline" style="width: 100%" label-width="100px">
-			  <el-form-item label="工程数学">
-			    <el-input v-model="scores.engineeringMathematics" placeholder="工程数学" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="第一外国语">
-			    <el-input v-model="scores.firstForeignLanguage" placeholder="第一外国语" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="社会主义理论">
-			    <el-input v-model="scores.characteristicSocialism" placeholder="社会主义理论" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="数值分析">
-			    <el-input v-model="scores.numericalAnalysis" placeholder="数值分析" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			</el-form>
-			<el-form :inline="true" :model="scores" class="demo-form-inline" style="width: 100%" label-width="100px">
-			  <el-form-item label="课程1">
-			    <el-input v-model="scores.no1" placeholder="课程1"  :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="课程2">
-			    <el-input v-model="scores.no2" placeholder="课程2" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="课程3">
-			    <el-input v-model="scores.no3" placeholder="课程3" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="课程4">
-			    <el-input v-model="scores.no4" placeholder="课程4" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			</el-form>
-			<!-- <el-form :inline="true" :model="scores" class="demo-form-inline" style="width: 100%" label-width="100px">
-			  <el-form-item label="课程1">
-			    <el-input v-model="scores.no1" placeholder="课程1"  :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="课程2">
-			    <el-input v-model="scores.no2" placeholder="课程2" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="课程3">
-			    <el-input v-model="scores.no3" placeholder="课程3" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="课程4">
-			    <el-input v-model="scores.no4" placeholder="课程4" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			</el-form>
-			<el-form :inline="true" :model="scores" class="demo-form-inline" style="width: 100%" label-width="100px">
-			  <el-form-item label="课程1">
-			    <el-input v-model="scores.no1" placeholder="课程1"  :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="课程2">
-			    <el-input v-model="scores.no2" placeholder="课程2" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="课程3">
-			    <el-input v-model="scores.no3" placeholder="课程3" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			  <el-form-item label="课程4">
-			    <el-input v-model="scores.no4" placeholder="课程4" :readonly="readonly3" style="width: 130px"></el-input>
-			  </el-form-item>
-			</el-form>
-			 -->
-
-			<!--  <el-form :inline="true" :model="baseInfo" class="demo-form-inline" style="width: 100%" label-width="70px">
-			  <el-form-item style="margin-left: -40px">
-					<el-button @click="readonly3=false" style="width: 100px">修改</el-button>
-					<el-button style="width: 100px" @click="commit3">提交</el-button>
-				</el-form-item>
-			</el-form> -->
+			<el-table :data="scoresFrom" v-loading="isDisAble">
+				<el-table-column prop="name" fixed label="姓名" width="70"></el-table-column>
+				<el-table-column prop="stuId" fixed label="学号" width="90"></el-table-column>
+				<el-table-column prop="currNumber" fixed label="已修课程数" width="110"></el-table-column>
+				<el-table-column prop="averageScore" fixed label="平均分" width="110"></el-table-column>
+				<el-table-column prop="engineeringMathematics" label="工程数学" width="149"></el-table-column>
+				<el-table-column prop="firstForeignLanguage" label="第一外国语" width="149"></el-table-column>
+				<el-table-column prop="characteristicSocialism" label="中国特色社会主义理论与实践研究" width="149"></el-table-column>
+				<el-table-column prop="numericalAnalysis" label="数值分析" width="149"></el-table-column>
+				<el-table-column prop="jixiejiaozuo" label="机械工程学科发展前沿专题讲座" width="149"></el-table-column>	
+				<el-table-column prop="jisuanyingyong" label="计算流体力学软件及工程应用" width="149"></el-table-column>
+				<el-table-column prop="jidianxue" label="机电系统动力学" width="149"></el-table-column>
+				<el-table-column prop="nami" label="纳米技术与应用" width="149"></el-table-column>			
+				<el-table-column prop="jixiejiagong" label="机械加工精度理论与机械制造装备技术" width="149"></el-table-column>
+				<el-table-column prop="jixiezhizao" label="机械制造方法理论与技术" width="149"></el-table-column>
+				<el-table-column prop="dianyingyantao" label="典型企业制造案例研讨" width="149"></el-table-column>
+				<el-table-column prop="jisuanjichu" label="计算流体力学基础" width="149"></el-table-column>
+				<el-table-column prop="xiandaililun" label="现代控制理论" width="149"></el-table-column>
+			</el-table>
 		</div>
 	</div>
 </template>
@@ -83,94 +29,101 @@ export default {
 	name: 'ScoreCenter',
 	data () {
 		return {
-			scores: {
-				stuId: '',
-				currNumber: '',
-				averageScore: '',
-				engineeringMathematics: '',
-				firstForeignLanguage: '',
-				characteristicSocialism: '',
-				numericalAnalysis: '',
-				no1: '',
-				no2: '',
-				no3: '',
-				no4: '',
-				no5: ''
-			},
-			readonly3: true
+			isDisAble: false,
+			loading: true,
+			scoresFrom: [
+				{
+					stuId: '',
+					name: '',
+					currNumber: '',
+					averageScore: '',
+					
+					engineeringMathematics: '',  // 工程数学
+				    firstForeignLanguage: '',  // 第一外国语
+				    characteristicSocialism: '',  // 中国特色社会主义理论与实践研究
+				    numericalAnalysis: '',  // 数值分析
+
+					jixiejiaozuo: '',  // 机械工程学科发展前沿专题讲座
+				    jisuanyingyong: '',  // 计算流体力学软件及工程应用
+				    jidianxue: '',  // 机电系统动力学
+				    nami: '',  // 纳米技术与应用
+				    jixiejiagong: '',  // 机械加工精度理论与机械制造装备技术
+				    jixiezhizao: '',  // 机械制造方法理论与技术
+				    dianyingyantao: '',  // 典型企业制造案例研讨
+				    jisuanjichu: '',  // 计算流体力学基础
+				    xiandaililun: '',  // 现代控制理论
+				}
+			],
+			queryData: {
+	        	userId: sessionStorage.getItem("userId"),
+	        	state: sessionStorage.getItem("state")
+	        },
 		}
 	},
 	created(){
-		this.getSession()
-		this.getScores()
-		// this.getTuCoer()
+		this.queryForAdmin()
 	},
 	computed: {
     },
 	methods: {
-		getSession() {
-			if (sessionStorage.getItem('userId') != null) {
-				this.scores.stuId = sessionStorage.getItem('userId')
-			} else {
-				this.scores.stuId = ''
+		queryForAdmin(){
+			var submitData ={
+				userId: this.queryData.userId,
+				status: this.queryData.status,
+				state: this.queryData.state,
 			}
-		},
-		getScores() {
-			this.$http.GetAllScore(this.scores.stuId).then((result) => {
-				if (result.c === 200) {
-					this.scores.averageScore = result.r.averageScore
-					this.scores.currNumber = result.r.currNumber
-					if (result.r.engineeringMathematics != -1) {
-						this.scores.engineeringMathematics = result.r.engineeringMathematics
+			this.isDisAble = true
+			this.$http.ShowScoresForTeacher(submitData).then((result) => {
+				if (result.c == 200) {
+					for (var i = result.r.length - 1; i >= 0; i--) {
+						if (result.r[i].engineeringMathematics == -1) {
+							result.r[i].engineeringMathematics = '未修'
+						}
+						if (result.r[i].firstForeignLanguage == -1) {
+							result.r[i].firstForeignLanguage = '未修'	
+						}
+						if (result.r[i].characteristicSocialism == -1) {
+							result.r[i].characteristicSocialism = '未修'
+						}
+						if (result.r[i].numericalAnalysis == -1) {
+							result.r[i].numericalAnalysis = '未修'	
+						}
+						if (result.r[i].jixiejiaozuo == -1) {
+							result.r[i].jixiejiaozuo = '未修'
+						}
+						if (result.r[i].jisuanyingyong == -1) {
+							result.r[i].jisuanyingyong = '未修'	
+						}
+						if (result.r[i].jidianxue == -1) {
+							result.r[i].jidianxue = '未修'
+						}
+						if (result.r[i].nami == -1) {
+							result.r[i].nami = '未修'	
+						}
+						if (result.r[i].jixiejiagong == -1) {
+							result.r[i].jixiejiagong = '未修'
+						}
+						if (result.r[i].jixiezhizao == -1) {
+							result.r[i].jixiezhizao = '未修'	
+						}
+						if (result.r[i].dianyingyantao == -1) {
+							result.r[i].dianyingyantao = '未修'
+						}
+						if (result.r[i].jisuanjichu == -1) {
+							result.r[i].jisuanjichu = '未修'	
+						}
+						if (result.r[i].xiandaililun == -1) {
+							result.r[i].xiandaililun = '未修'
+						}
 					}
-					if (result.r.firstForeignLanguage != -1) {
-						this.scores.firstForeignLanguage = result.r.firstForeignLanguage
-					}
-					if (result.r.characteristicSocialism != -1) {
-						this.scores.characteristicSocialism = result.r.characteristicSocialism
-					}
-					if (result.r.numericalAnalysis != -1) {
-						this.scores.numericalAnalysis = result.r.numericalAnalysis
-					}
-					
-				} else if(result.c === 305){
-					this.$message({
-						message: result.r,
-						type: 'success'
-		            });
+					this.scoresFrom = result.r
 				} else {
-					this.$message.error(result.r)
+					this.scoresFrom = []
 				}
+				this.isDisAble = false
 			}, (err) => {
-				this.$message.error(err.msg)
-			})  		
-		},
-		commit3() {
-			this.readonly3 = true
-			var allScore = {
-				stuId: this.scores.stuId,
-				engineeringMathematics: this.scores.engineeringMathematics != '' ? this.scores.engineeringMathematics : -1,
-				firstForeignLanguage: this.scores.firstForeignLanguage != '' ? this.scores.firstForeignLanguage : -1,
-				characteristicSocialism: this.scores.characteristicSocialism != '' ? this.scores.characteristicSocialism : -1,
-				numericalAnalysis: this.scores.numericalAnalysis != '' ? this.scores.numericalAnalysis : -1,
-				
-			}
-			if (true) {
-				this.$http.EditAllScore(allScore).then((result) => {
-				  if (result.c === 200) {
-				    this.$message({
-						message: result.r,
-						type: 'success'
-		            });
-		            this.getScores()
-				  } else {
-				    this.$message.error(result.r);				    
-				  }
-				}, (err) => {
-				  this.$message.error(err.msg)
-				})  
-			}
-
+	            this.$message.error(err.msg)
+	        })
 		},
 		
 		

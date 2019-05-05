@@ -8,6 +8,7 @@ import router from './router'
 import Api from './api'
 import store from './store'
 import Global from './global/Global'
+// import fileDownload from 'js-file-download'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false

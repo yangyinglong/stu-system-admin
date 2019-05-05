@@ -82,7 +82,7 @@
 				rules: {
 					stuId:[
 						{required: true, message: '学号不能为空', trigger: 'blur'},
-			            {min: 8, max: 8, message: '学号长度为8位数字值', trigger: 'blur'}
+			            // {min: 3, max: 8, message: '学号长度错误', trigger: 'blur'}
 					],
 					name:[
 						{required: true, message: '姓名不能为空', trigger: 'blur'}

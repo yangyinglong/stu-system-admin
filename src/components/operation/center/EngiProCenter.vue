@@ -147,21 +147,7 @@ export default {
 			this.$router.push({name: 'EngiProExam', params: {orderId: row.id}})
 		},
 		showProofMaterial(index, row){
-			this.$confirm('文件名 ' + row.proofMaterialId, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
+			window.open('http://129.204.15.161:7070/api/file/downloadFile?fileName=' + row.proofMaterialId)
 		},
 	},
 	components: {

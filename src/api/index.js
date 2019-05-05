@@ -201,4 +201,10 @@ export default {
   ShowPrizesForTeacher(params){
     return fetch('/admin/showAllPrizeForTeacher', params)
   },
+  ShowScoresForTeacher(params){
+    return fetch('/admin/showScoresForTeacher', params)
+  },
+  DownloadFile(params){
+    return fetch('file/downloadFile', params)
+  }
 }
