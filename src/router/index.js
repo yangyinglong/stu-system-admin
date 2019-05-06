@@ -15,6 +15,7 @@ import EngiProExam from '@/components/operation/center/engiProOper/EngiProExam'
 import AcadExchExam from '@/components/operation/center/acadExchOper/AcadExchExam'
 import MasterPaperExam from '@/components/operation/center/masterPaperOper/MasterPaperExam'
 import WorkExam from '@/components/operation/center/workOper/WorkExam'
+import BaseInfoShow from '@/components/operation/center/baseInfoOper/BaseInfoShow'
 Vue.use(Router)
 
 const router = new Router({
@@ -104,21 +105,27 @@ const router = new Router({
       name: 'WorkExam',
       component: WorkExam,
       meta: {authRequired: true}
+    },
+    {     
+      path: '/baseInfoShow',
+      name: 'BaseInfoShow',
+      component: BaseInfoShow,
+      meta: {authRequired: true}
     }
   ]
 })
 
-// router.beforeEach((to, from, next) => {    //判断是否需要登录拦截
-//   if (to.meta.authRequired) {        //存在token正常跳转
-//     if (sessionStorage.getItem('status') != 0) {
-//       next()
-//     } else {
-//       next({path: '/'})
-//       // next()
-//     }
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {    //判断是否需要登录拦截
+  if (to.meta.authRequired) {        //存在token正常跳转
+    if (sessionStorage.getItem('status') != 0) {
+      next()
+    } else {
+      next({path: '/'})
+      // next()
+    }
+  } else {
+    next()
+  }
+})
 
 export default router

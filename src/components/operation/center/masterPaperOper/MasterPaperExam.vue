@@ -26,11 +26,11 @@
 				</el-form-item>
 			</el-form>
 
-			<el-form :inline="true" :model="masterPaperFrom" class="demo-form-inline" label-width="70px">
+			<!-- <el-form :inline="true" :model="masterPaperFrom" class="demo-form-inline" label-width="70px">
 				<el-form-item label="外审意见1">
 					<el-input type="textarea" v-model="masterPaperFrom.sugg1" placeholder="项目简介" style="width: 490px"></el-input>
 				</el-form-item>
-			</el-form>
+			</el-form> -->
 
 			<el-form :inline="true" :model="masterPaperFrom" :rules="rules" class="demo-form-inline" style="width: 100%" label-width="70px">
 				<el-form-item label="外审成绩2">
@@ -38,11 +38,17 @@
 				</el-form-item>
 			</el-form>
 
-			<el-form :inline="true" :model="masterPaperFrom" class="demo-form-inline" label-width="70px">
+			<el-form :inline="true" :model="masterPaperFrom" :rules="rules" class="demo-form-inline" style="width: 100%" label-width="70px">
+				<el-form-item label="加送外审成绩">
+					<el-input v-model="masterPaperFrom.score4" placeholder="加送外审成绩"  readonly="true" style="width: 490px"></el-input>
+				</el-form-item>
+			</el-form>
+
+			<!-- <el-form :inline="true" :model="masterPaperFrom" class="demo-form-inline" label-width="70px">
 				<el-form-item label="外审意见2">
 					<el-input type="textarea" v-model="masterPaperFrom.sugg2" placeholder="项目简介" style="width: 490px"></el-input>
 				</el-form-item>
-			</el-form>
+			</el-form> -->
 
 			<el-form :inline="true" :model="masterPaperFrom" :rules="rules" class="demo-form-inline" style="width: 100%" label-width="70px">
 				<el-form-item label="答辩成绩">
@@ -50,12 +56,12 @@
 				</el-form-item>
 			</el-form>
 
-			<el-form :inline="true" :model="masterPaperFrom" class="demo-form-inline" label-width="70px">
+			<!-- <el-form :inline="true" :model="masterPaperFrom" class="demo-form-inline" label-width="70px">
 				<el-form-item label="答辩意见">
 					<el-input type="textarea" v-model="masterPaperFrom.sugg3" placeholder="项目简介" style="width: 490px"></el-input>
 				</el-form-item>
 			</el-form>
-
+ -->
 			<el-form :inline="true" :model="masterPaperFrom" :rules="rules" class="demo-form-inline" style="width: 100%" label-width="70px">
 				<el-form-item label="时间">
 					<el-input v-model="masterPaperFrom.getDate" placeholder="评分" readonly="true"></el-input>
@@ -92,6 +98,7 @@ export default {
 				score2: 'B',
 				sugg2: '二审意见',
 				score3: 'A',
+				score4: '',
 				sugg3: '答辩意见',
 				getDate: '2018-12-13',
 				score: null
@@ -109,6 +116,7 @@ export default {
 		this.masterPaperFrom.sugg2 = sessionStorage.getItem('sugg2')
 		this.masterPaperFrom.score2 = sessionStorage.getItem('score2')
 		this.masterPaperFrom.score3 = sessionStorage.getItem('score3')
+		this.masterPaperFrom.score4 = sessionStorage.getItem('score4')
 		this.masterPaperFrom.sugg3 = sessionStorage.getItem('sugg3')
 		this.masterPaperFrom.getDate = sessionStorage.getItem('getDate')
 		

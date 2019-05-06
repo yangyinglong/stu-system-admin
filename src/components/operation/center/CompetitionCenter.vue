@@ -19,8 +19,8 @@
 		</div>
 		<div style="margin-left: 20px; min-height: 465px; width: 95%">
 			<el-table :data="competitionData" v-loading="isDisAble">
+				<el-table-column prop="stuId" label="学号" width="100"></el-table-column>
 				<el-table-column prop="name" label="姓名" width="70"></el-table-column>
-				<el-table-column prop="stuId" label="学号" width="90"></el-table-column>
 				<el-table-column prop="competitionType" label="类型" width="90"></el-table-column>
 				<el-table-column prop="competitionName" label="名称" width="140"></el-table-column>
 				<el-table-column prop="competitionState" label="竞赛状态" width="100"></el-table-column>

@@ -19,8 +19,8 @@
 		</div>
 		<div style="margin-left: 20px; min-height: 465px; width: 1200px">
 			<el-table :data="honorData" v-loading="isDisAble">
-				<el-table-column prop="name" label="姓名" width="100"></el-table-column>
 				<el-table-column prop="stuId" label="学号" width="120"></el-table-column>
+				<el-table-column prop="name" label="姓名" width="100"></el-table-column>
 				<el-table-column prop="honorType" label="类型" width="180"></el-table-column>
 				<el-table-column prop="honorLevel" label="级别" width="120"></el-table-column>
 				<el-table-column prop="honorGrade" label="等级" width="120"></el-table-column>

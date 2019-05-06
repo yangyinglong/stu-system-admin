@@ -16,16 +16,17 @@
 		</div>
 		<div style="margin-left: 20px; min-height: 465px; width: 95%">
 			<el-table :data="masterPaperData" v-loading="isDisAble">
+				<el-table-column prop="stuId" fixed label="学号" width="100"></el-table-column>
 				<el-table-column prop="name" fixed label="姓名" width="70"></el-table-column>
-				<el-table-column prop="stuId" fixed label="学号" width="90"></el-table-column>
 				<el-table-column prop="paperName" label="题目" width="180"></el-table-column>
 				<el-table-column prop="paperAbstract" label="摘要" width="200"></el-table-column>
 				<el-table-column prop="score1" label="外审成绩1" width="90"></el-table-column>
-				<el-table-column prop="sugg1" label="外审意见1" width="200"></el-table-column>
+				<!-- <el-table-column prop="sugg1" label="外审意见1" width="200"></el-table-column> -->
 				<el-table-column prop="score2" label="外审成绩2" width="90"></el-table-column>
-				<el-table-column prop="sugg2" label="外审意见2" width="200"></el-table-column>
+				<el-table-column prop="score4" label="加送外审成绩" width="90"></el-table-column>
+				<!-- <el-table-column prop="sugg2" label="外审意见2" width="200"></el-table-column> -->
 				<el-table-column prop="score3" label="答辩成绩" width="90"></el-table-column>
-				<el-table-column prop="sugg3" label="答辩意见" width="200"></el-table-column>
+				<!-- <el-table-column prop="sugg3" label="答辩意见" width="200"></el-table-column> -->
 				<el-table-column prop="getDate" label="日期" width="100"></el-table-column>
 				<!-- <el-table-column prop="proResult" label="项目成果" width="120"></el-table-column>	 -->
 				<el-table-column prop="score" label="得分" width="50"></el-table-column>
@@ -60,6 +61,7 @@ export default {
 					score1: 'A', // 性能指标
 					sugg1: '一审意见', // 个人所做的工作
 					score2: 'B',
+					score4: '',
 					sugg2: '二审意见',
 					score3: 'A',
 					sugg3: '答辩意见',
@@ -135,6 +137,7 @@ export default {
 			sessionStorage.setItem('score1', row.score1)
 			sessionStorage.setItem('sugg1', row.sugg1)
 			sessionStorage.setItem('score2', row.score2)
+			sessionStorage.setItem('score4', row.score4)
 			sessionStorage.setItem('sugg2', row.sugg2)
 			sessionStorage.setItem('score3', row.score3)
 			sessionStorage.setItem('sugg3', row.sugg3)			

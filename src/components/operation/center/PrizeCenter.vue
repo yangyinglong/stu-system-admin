@@ -3,8 +3,8 @@
 		<br>
 		<div style="margin-left: 20px; min-height: 465px; width: 95%">
 			<el-table :data="allPrizeData" v-loading="isDisAble">
+				<el-table-column prop="stuId" fixed label="学号" width="100"></el-table-column>
 				<el-table-column prop="name" fixed label="姓名" width="70"></el-table-column>
-				<el-table-column prop="stuId" fixed label="学号" width="90"></el-table-column>
 				<el-table-column prop="honorScore" label="荣誉奖励总分" width="110"></el-table-column>
 				<el-table-column prop="honorNum" label="荣誉奖励排名" width="110"></el-table-column>
 				<el-table-column prop="paperSocre" label="学术论文" width="78"></el-table-column>

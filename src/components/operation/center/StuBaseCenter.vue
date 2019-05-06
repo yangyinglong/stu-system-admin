@@ -19,16 +19,19 @@
 		</div>
 		<div style="margin-left: 20px; min-height: 465px; width: 95%">
 			<el-table :data="stuData" v-loading="isDisAble">
-				<el-table-column prop="name" fixed label="姓名" width="70"></el-table-column>
-				<el-table-column prop="stuId" fixed label="学号" width="90"></el-table-column>
+				<el-table-column prop="stuId" fixed label="学号" width="100"></el-table-column>
+				<el-table-column prop="name" fixed label="姓名" width="80"></el-table-column>
 				<el-table-column prop="sex" label="性别" width="60"></el-table-column>
+				<el-table-column prop="masterMajor" label="研究生专业" width="180"></el-table-column>
 				<el-table-column prop="phone" label="电话" width="120"></el-table-column>
-				<el-table-column prop="uSchool" label="本科学校" width="140"></el-table-column>
+				<el-table-column prop="eMail" label="邮箱" width="180"></el-table-column>
+				<el-table-column prop="politicalOutlook" label="政治面貌" width="120"></el-table-column>
+				<!-- <el-table-column prop="uSchool" label="本科学校" width="140"></el-table-column>
 				<el-table-column prop="uMajor" label="本科专业" width="150"></el-table-column>
 				<el-table-column prop="english" label="英语(入学考试)" width="130"></el-table-column>
 				<el-table-column prop="political" label="政治" width="80"></el-table-column>
 				<el-table-column prop="math" label="数学" width="80"></el-table-column>	
-				<el-table-column prop="specialized" label="专业课" width="80"></el-table-column>
+				<el-table-column prop="specialized" label="专业课" width="80"></el-table-column> -->
 				<el-table-column prop="tuturName" label="导师" width="80"></el-table-column>
 				<el-table-column prop="counsellorName" label="辅导员" width="80"></el-table-column>
 				<el-table-column fixed="right" label="操作" width="140">
@@ -66,6 +69,34 @@ export default {
 					sex: '',
 					tuturName: '',
 					counsellorName: '',
+
+					// stuId: '',
+					// name: '',
+					// sex: '',
+					// phone: '',
+					// uSchool: '',
+					// uMajor: '',
+					// tutor: '',
+					// counsellor: '',
+					languagesTypes: '',
+					languagesScore: '',
+					// english: '',
+					// political: '',
+					// math: '',
+					// specialized: '',
+
+					idCard: '',
+				    masterMajor: '',
+				    politicalOutlook: '',
+				    biogenicLand: '',  // 生源地
+				    masterDirection: '',  // 研究方向
+				    eMail: '',
+				    emergencyContact: '',
+				    emergencyPhone: '',
+				    secretary: '',  // 研究生秘书
+
+				    averageScore: '',
+ 					currNumber: '',
 				}			
 			],
 			queryData: {
@@ -99,34 +130,32 @@ export default {
 	        })
 		},
 		showDetails(index, row){
-			// sessionStorage.setItem('id', row.id)
-			// sessionStorage.setItem('name', row.name)
-			// sessionStorage.setItem('stuId', row.stuId)
-			// sessionStorage.setItem('companyName', row.companyName)
-			// sessionStorage.setItem('companyType', row.companyType)
-			// sessionStorage.setItem('workType', row.workType)
-			// sessionStorage.setItem('getDate', row.getDate)
-			// this.$router.push({name: 'WorkExam', params: {orderId: row.id}})
-		},
-		showProofMaterial(index, row){
-			this.$confirm('文件名 ' + row.proofMaterialId, '提示', {
-		      confirmButtonText: '确定',
-		      cancelButtonText: '取消',
-		      type: 'warning'
-		    }).then(() => {
-		      this.$message({
-		        type: 'success',
-		        message: '删除成功!'
-		      });
-		    }).catch(() => {
-		      this.$message({
-		        type: 'info',
-		        message: '已取消删除'
-		      });          
-		    });
-		},
-		downloadFile(){
-
+			sessionStorage.setItem('name', row.name)
+			sessionStorage.setItem('stuId', row.stuId)
+			sessionStorage.setItem('phone', row.phone)
+			sessionStorage.setItem('uSchool', row.uSchool)
+			sessionStorage.setItem('uMajor', row.uMajor)
+			sessionStorage.setItem('english', row.english)
+			sessionStorage.setItem('political', row.political)
+			sessionStorage.setItem('math', row.math)
+			sessionStorage.setItem('specialized', row.specialized)
+			sessionStorage.setItem('sex', row.sex)
+			sessionStorage.setItem('tuturName', row.tuturName)
+			sessionStorage.setItem('counsellorName', row.counsellorName)
+			sessionStorage.setItem('idCard', row.idCard)
+			sessionStorage.setItem('masterMajor', row.masterMajor)
+			sessionStorage.setItem('politicalOutlook', row.politicalOutlook)
+			sessionStorage.setItem('biogenicLand', row.biogenicLand)
+			sessionStorage.setItem('masterDirection', row.masterDirection)
+			sessionStorage.setItem('eMail', row.eMail)
+			sessionStorage.setItem('emergencyContact', row.emergencyContact)
+			sessionStorage.setItem('emergencyPhone', row.emergencyPhone)
+			sessionStorage.setItem('secretary', row.secretary)
+			sessionStorage.setItem('averageScore', row.averageScore)
+			sessionStorage.setItem('currNumber', row.currNumber)
+			sessionStorage.setItem('languagesTypes', row.languagesTypes)
+			sessionStorage.setItem('languagesScore', row.languagesScore)
+			this.$router.push({name: 'BaseInfoShow', params: {orderId: row.id}})
 		}
 	},
 	components: {

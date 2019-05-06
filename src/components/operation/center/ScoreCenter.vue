@@ -2,8 +2,8 @@
 	<div style="margin: 0 auto; height: 550px">
 		<div style="text-align:center; margin-top: 20px;">
 			<el-table :data="scoresFrom" v-loading="isDisAble">
+				<el-table-column prop="stuId" fixed label="学号" width="100"></el-table-column>
 				<el-table-column prop="name" fixed label="姓名" width="70"></el-table-column>
-				<el-table-column prop="stuId" fixed label="学号" width="90"></el-table-column>
 				<el-table-column prop="currNumber" fixed label="已修课程数" width="110"></el-table-column>
 				<el-table-column prop="averageScore" fixed label="平均分" width="110"></el-table-column>
 				<el-table-column prop="engineeringMathematics" label="工程数学" width="149"></el-table-column>

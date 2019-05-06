@@ -19,8 +19,8 @@
 		</div>
 		<div style="margin-left: 20px; min-height: 465px; width: 95%">
 			<el-table :data="entrProData" v-loading="isDisAble">
+				<el-table-column prop="stuId" fixed label="学号" width="100"></el-table-column>
 				<el-table-column prop="name" fixed label="姓名" width="70"></el-table-column>
-				<el-table-column prop="stuId" fixed label="学号" width="90"></el-table-column>
 				<el-table-column prop="proType" label="类型" width="120"></el-table-column>
 				<el-table-column prop="proName" label="名称" width="150"></el-table-column>
 				<el-table-column prop="proState" label="项目状态" width="80"></el-table-column>

@@ -16,8 +16,8 @@
 		</div>
 		<div style="margin-left: 20px; min-height: 465px; width: 95%">
 			<el-table :data="workData" v-loading="isDisAble">
+				<el-table-column prop="stuId" fixed label="学号" width="100"></el-table-column>
 				<el-table-column prop="name" fixed label="姓名" width="70"></el-table-column>
-				<el-table-column prop="stuId" fixed label="学号" width="90"></el-table-column>
 				<el-table-column prop="companyName" label="单位名称" width="180"></el-table-column>
 				<el-table-column prop="companyType" label="单位性质" width="180"></el-table-column>
 				<el-table-column prop="workType" label="就业类型" width="120"></el-table-column>
