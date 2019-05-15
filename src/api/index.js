@@ -206,5 +206,15 @@ export default {
   },
   DownloadFile(params){
     return fetch('file/downloadFile', params)
-  }
+  },
+  DownStusForTeacher(params){
+    return fetch('admin/downStusForTeacher', params)
+  },
+
+  ShowProjectsForTeacher(params){
+    return fetch('/admin/showProjectsForTeacher', params)
+  },
+  ExamProject(params){
+    return fetch('/admin/examProject', params)
+  },
 }

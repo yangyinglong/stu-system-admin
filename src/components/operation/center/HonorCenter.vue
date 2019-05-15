@@ -4,7 +4,7 @@
 			<el-form :inline="true" :model="queryData" class="demo-form-inline">
 				<el-form-item>
 					<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange"
-                           :disabled="isDisAble" style="width: 200px">全部
+                           :disabled="isDisAble" style="width: 100px">全部
              		</el-checkbox>
 				</el-form-item>
 				<el-form-item>
@@ -12,9 +12,16 @@
 	                	<el-checkbox v-for="iterm in iterms" :label="iterm" :key="iterm">{{iterm}}</el-checkbox>
 	              	</el-checkbox-group>
 				</el-form-item>
-				<!-- <el-form-item style="margin-left: 800px">
-					<AddHonor />
-				</el-form-item> -->
+
+				<el-form-item label="学号" style="margin-left: 100px">
+					<el-input v-model="queryData.stuId" placeholder="学号" style="width: 150px; margin-right: 20px" size="small"></el-input>
+				</el-form-item>
+				<el-form-item label="姓名">
+					<el-input v-model="queryData.stuName" placeholder="姓名" style="width: 150px; margin-right: 20px" size="small"></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" @click="queryForAdmin" :disabled="isDisAble" size="small">查询</el-button>
+				</el-form-item>
 			</el-form>
 		</div>
 		<div style="margin-left: 20px; min-height: 465px; width: 1200px">
@@ -29,7 +36,7 @@
 				<el-table-column prop="status" label="状态" width="70"></el-table-column>
 				<el-table-column fixed="right" label="操作" width="140">
 				<template slot-scope="scope">
-					<el-button type="text" size="small" @click="showProofMaterial(scope.$index, scope.row)">下载材料</el-button>
+					<el-button type="text" size="small" @click="showProofMaterial(scope.$index, scope.row)" v-if="scope.row.proofMaterialId != ''">下载材料</el-button>
 					<el-button type="text" size="small" @click="examHonor(scope.$index, scope.row)" v-if="scope.row.status== '待审核'">审核</el-button>
 				</template>
 				</el-table-column>
@@ -69,6 +76,8 @@ export default {
 	        	userId: sessionStorage.getItem("userId"),
 	        	state: sessionStorage.getItem("state"),
 	        	status: ['待审核'],
+	        	stuId: '',
+	        	stuName: ''
 	        },
 		}
 	},
@@ -83,6 +92,8 @@ export default {
 				userId: this.queryData.userId,
 				status: this.queryData.status,
 				state: this.queryData.state,
+				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%'
 			}
 			this.isDisAble = true
 			this.$http.ShowHonorsForTeacher(submitData).then((result) => {

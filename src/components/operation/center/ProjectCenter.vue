@@ -25,20 +25,28 @@
 			</el-form>
 		</div>
 		<div style="margin-left: 20px; min-height: 465px; width: 95%">
-			<el-table :data="workData" v-loading="isDisAble">
+			<el-table :data="projectData" v-loading="isDisAble">
 				<el-table-column prop="stuId" fixed label="学号" width="100"></el-table-column>
 				<el-table-column prop="name" fixed label="姓名" width="70"></el-table-column>
-				<el-table-column prop="companyName" label="单位名称" width="180"></el-table-column>
-				<el-table-column prop="companyType" label="单位性质" width="180"></el-table-column>
-				<el-table-column prop="workType" label="就业类型" width="120"></el-table-column>
-				<el-table-column prop="getDate" label="日期" width="150"></el-table-column>
-				<!-- <el-table-column prop="proResult" label="项目成果" width="120"></el-table-column>	 -->
-				<el-table-column prop="score" label="得分" width="100"></el-table-column>
-				<el-table-column prop="status" label="状态" width="100"></el-table-column>
-				<el-table-column fixed="right" label="操作" width="140">
+				<el-table-column prop="proClass" label="项目大类" width="130"></el-table-column>
+				
+				<el-table-column prop="proName" label="项目名称" width="300"></el-table-column>
+				<el-table-column prop="proType" label="项目类型" width="140"></el-table-column>
+
+				<<!-- el-table-column prop="proState" label="项目状态" width="80"></el-table-column>
+				<el-table-column prop="proLevel" label="项目级别" width="80"></el-table-column>
+				<el-table-column prop="ranking" label="参赛排名" width="80"></el-table-column>
+				<el-table-column prop="totalNumber" label="参赛人数" width="80"></el-table-column>
+				<el-table-column prop="proTeacher" label="指导老师" width="80"></el-table-column>
+				<el-table-column prop="proTime" label="日期" width="100"></el-table-column>
+				<el-table-column prop="proResult" label="项目成果" width="100"></el-table-column>	 -->
+				<el-table-column prop="score" label="得分" width="50"></el-table-column>
+				<el-table-column prop="state" label="状态" width="70"></el-table-column>
+				<el-table-column fixed="right" label="操作" width="200">
 				<template slot-scope="scope">
 					<el-button type="text" size="small" @click="showProofMaterial(scope.$index, scope.row)" v-if="scope.row.proofMaterialId != ''">下载材料</el-button>
-					<el-button type="text" size="small" @click="examEntrPro(scope.$index, scope.row)" v-if="scope.row.status== '待审核'">审核</el-button>
+					<el-button type="text" size="small" @click="showProject(scope.$index, scope.row)">详情</el-button>
+					<el-button type="text" size="small" @click="examProject(scope.$index, scope.row)" v-if="scope.row.state== '待审核'">审核</el-button>
 				</template>
 				</el-table-column>
 			</el-table>
@@ -50,21 +58,27 @@
 <script>
 const itermOptions = ['待审核', '已通过']
 export default {
-	name: 'WorkCenter',
+	name: 'InnoProCenter',
 	data () {
 		return {
 			isDisAble: false,
 			loading: true,
-			workData: [
+			projectData: [
 				{
 					id:'',
 					name: '',
 					stuId: '',
-					companyName: '单位名称',
-					companyType: '单位性质',
-					workType: '就业类型', // 个人所做的工作
-					getDate: '2018-12-13',
-	        		status: '待审核',
+					proClass: '创新项目',
+					proName: '大学生创新项目测试数据1',
+					proType: '创业孵化项目', //
+					proLevel: '国家级',
+					ranking: 1,
+					totalNumber: 3,
+					proState: '竞赛进行初期',
+					proResult: '创业成果',					
+					proTeacher: '郭倩',
+					proTime: '2018-12-13',
+	        		state: '待审核',
 	        		score: 0,
 	        		proofMaterialId: '',
 				}			
@@ -97,11 +111,11 @@ export default {
 				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%'
 			}
 			this.isDisAble = true
-			this.$http.ShowWorksForTeacher(submitData).then((result) => {
+			this.$http.ShowProjectsForTeacher(submitData).then((result) => {
 				if (result.c == 200) {
-					this.workData = result.r
+					this.projectData = result.r
 				} else {
-					this.workData = []
+					this.projectData = []
 				}
 				this.isDisAble = false
 			}, (err) => {
@@ -129,21 +143,44 @@ export default {
 			this.queryData.status = sessionStorage.getItem('checkedIterms').split(',')
 			this.queryForAdmin()
 		},
-		showDetails(index, row){
+		examProject(index, row){
 			sessionStorage.setItem('id', row.id)
 			sessionStorage.setItem('name', row.name)
 			sessionStorage.setItem('stuId', row.stuId)
-			sessionStorage.setItem('companyName', row.companyName)
-			sessionStorage.setItem('companyType', row.companyType)
-			sessionStorage.setItem('workType', row.workType)
-			sessionStorage.setItem('getDate', row.getDate)
-			this.$router.push({name: 'WorkExam', params: {orderId: row.id}})
+			sessionStorage.setItem('proName', row.proName)
+			sessionStorage.setItem('proType', row.proType)
+			sessionStorage.setItem('proClass', row.proClass)
+			sessionStorage.setItem('proState', row.proState)
+			sessionStorage.setItem('ranking', row.ranking)
+			sessionStorage.setItem('totalNumber', row.totalNumber)
+			sessionStorage.setItem('proTime', row.proTime)
+			sessionStorage.setItem('proLevel', row.proLevel)
+			sessionStorage.setItem('proResult', row.proResult)
+			sessionStorage.setItem('proTeacher', row.proTeacher)
+			this.$router.push({name: 'ProjectExam', params: {orderId: row.id}})
+		},
+		showProject(index, row){
+			sessionStorage.setItem('id', row.id)
+			sessionStorage.setItem('name', row.name)
+			sessionStorage.setItem('stuId', row.stuId)
+			sessionStorage.setItem('proName', row.proName)
+			sessionStorage.setItem('proType', row.proType)
+			sessionStorage.setItem('proClass', row.proClass)
+			sessionStorage.setItem('proState', row.proState)
+			sessionStorage.setItem('ranking', row.ranking)
+			sessionStorage.setItem('totalNumber', row.totalNumber)
+			sessionStorage.setItem('proTime', row.proTime)
+			sessionStorage.setItem('proLevel', row.proLevel)
+			sessionStorage.setItem('proResult', row.proResult)
+			sessionStorage.setItem('proTeacher', row.proTeacher)
+			this.$router.push({name: 'ProjectShow', params: {orderId: row.id}})
 		},
 		showProofMaterial(index, row){
 			window.open('http://129.204.15.161:7070/api/file/downloadFile?fileName=' + row.proofMaterialId)
 		},
 	},
 	components: {
+		
 	},
 }		
 </script>

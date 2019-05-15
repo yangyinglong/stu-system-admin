@@ -2,18 +2,19 @@
 	<div style="margin: 0 auto">
 		<div style="margin-top: 20px; margin-left: 120px; height: 64px">
 			<el-form :inline="true" :model="queryData" class="demo-form-inline">
-				<!-- <el-form-item>
-					<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange"
-                           :disabled="isDisAble" style="width: 200px">全部
-             		</el-checkbox>
+
+				<el-form-item label="学号">
+					<el-input v-model="queryData.stuId" placeholder="学号" style="width: 150px; margin-right: 20px" size="small"></el-input>
+				</el-form-item>
+				<el-form-item label="姓名">
+					<el-input v-model="queryData.stuName" placeholder="姓名" style="width: 150px; margin-right: 20px" size="small"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-checkbox-group v-model="checkedIterms" @change="handleCheckedItermsChange" :disabled="isDisAble">
-	                	<el-checkbox v-for="iterm in iterms" :label="iterm" :key="iterm">{{iterm}}</el-checkbox>
-	              	</el-checkbox-group>
-				</el-form-item> -->
-				<el-form-item style="margin-left: 800px">
-					<el-button type="text" icon="el-icon-download" size="medium" style="font-size: 30px"></el-button>
+					<el-button type="primary" @click="queryForAdmin" :disabled="isDisAble" size="small">查询</el-button>
+				</el-form-item>
+
+				<el-form-item style="margin-left: 300px">
+					<el-button type="text"  size="small" style="font-size: 16px" @click="downloadInfo">导出数据</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -101,7 +102,9 @@ export default {
 			],
 			queryData: {
 	        	userId: sessionStorage.getItem("userId"),
-	        	state: sessionStorage.getItem("state")
+	        	state: sessionStorage.getItem("state"),
+	        	stuId: '',
+	        	stuName: ''
 	        },
 		}
 	},
@@ -116,6 +119,8 @@ export default {
 				userId: this.queryData.userId,
 				status: this.queryData.status,
 				state: this.queryData.state,
+				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%'
 			}
 			this.isDisAble = true
 			this.$http.ShowStusForTeacher(submitData).then((result) => {
@@ -156,6 +161,26 @@ export default {
 			sessionStorage.setItem('languagesTypes', row.languagesTypes)
 			sessionStorage.setItem('languagesScore', row.languagesScore)
 			this.$router.push({name: 'BaseInfoShow', params: {orderId: row.id}})
+		},
+		downloadInfo() {
+			var submitData ={
+				userId: this.queryData.userId,
+				status: this.queryData.status,
+				state: this.queryData.state,
+				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%'
+			}
+			this.$http.DownStusForTeacher(submitData).then((result) => {
+				if (result.c == 200) {
+					window.open('http://129.204.15.161:7070/api/file/downloadExcel?fileName=' + result.r)
+				} else {
+					this.$message.error(result.r)
+				}
+				this.isDisAble = false
+			}, (err) => {
+	            this.$message.error(err.msg)
+	        })
+
 		}
 	},
 	components: {

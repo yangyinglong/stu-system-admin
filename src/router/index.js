@@ -16,6 +16,9 @@ import AcadExchExam from '@/components/operation/center/acadExchOper/AcadExchExa
 import MasterPaperExam from '@/components/operation/center/masterPaperOper/MasterPaperExam'
 import WorkExam from '@/components/operation/center/workOper/WorkExam'
 import BaseInfoShow from '@/components/operation/center/baseInfoOper/BaseInfoShow'
+import ScoreShow from '@/components/operation/center/scoreOper/ScoreShow'
+import ProjectShow from '@/components/operation/center/projectOper/ProjectShow'
+import ProjectExam from '@/components/operation/center/projectOper/ProjectExam'
 Vue.use(Router)
 
 const router = new Router({
@@ -110,6 +113,24 @@ const router = new Router({
       path: '/baseInfoShow',
       name: 'BaseInfoShow',
       component: BaseInfoShow,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/scoreShow',
+      name: 'ScoreShow',
+      component: ScoreShow,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/projectShow',
+      name: 'ProjectShow',
+      component: ProjectShow,
+      meta: {authRequired: true}
+    },
+    {     
+      path: '/projectExam',
+      name: 'ProjectExam',
+      component: ProjectExam,
       meta: {authRequired: true}
     }
   ]
