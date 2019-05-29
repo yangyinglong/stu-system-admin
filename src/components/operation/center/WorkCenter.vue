@@ -28,17 +28,20 @@
 			<el-table :data="workData" v-loading="isDisAble">
 				<el-table-column prop="stuId" fixed label="学号" width="100"></el-table-column>
 				<el-table-column prop="name" fixed label="姓名" width="70"></el-table-column>
-				<el-table-column prop="companyName" label="单位名称" width="180"></el-table-column>
-				<el-table-column prop="companyType" label="单位性质" width="180"></el-table-column>
-				<el-table-column prop="workType" label="就业类型" width="120"></el-table-column>
-				<el-table-column prop="getDate" label="日期" width="150"></el-table-column>
-				<!-- <el-table-column prop="proResult" label="项目成果" width="120"></el-table-column>	 -->
-				<el-table-column prop="score" label="得分" width="100"></el-table-column>
-				<el-table-column prop="status" label="状态" width="100"></el-table-column>
-				<el-table-column fixed="right" label="操作" width="140">
+				<el-table-column prop="workType" fixed label="就业深造类型" width="120"></el-table-column>
+				<el-table-column prop="companyName" fixed label="单位/学校名称" width="220"></el-table-column>
+				<el-table-column prop="isCmp" label="是否专业对口" width="105"></el-table-column>
+				<el-table-column prop="workClass" label="职位类别/专业名称" width="180"></el-table-column>
+				<el-table-column prop="companyType" label="单位性质/创业内容" width="220"></el-table-column>
+				<el-table-column prop="address" label="具体省市" width="140"></el-table-column>
+				<el-table-column prop="getDate" label="日期" width="100"></el-table-column>
+
+				<el-table-column prop="score" label="得分" width="60"></el-table-column>
+				<el-table-column prop="status" label="状态" width="80"></el-table-column>
+				<el-table-column fixed="right" label="操作" width="70">
 				<template slot-scope="scope">
 					<el-button type="text" size="small" @click="showProofMaterial(scope.$index, scope.row)" v-if="scope.row.proofMaterialId != ''">下载材料</el-button>
-					<el-button type="text" size="small" @click="examEntrPro(scope.$index, scope.row)" v-if="scope.row.status== '待审核'">审核</el-button>
+					<el-button type="text" size="small" @click="showDetails(scope.$index, scope.row)" v-if="scope.row.status== '待审核'">审核</el-button>
 				</template>
 				</el-table-column>
 			</el-table>
@@ -60,9 +63,12 @@ export default {
 					id:'',
 					name: '',
 					stuId: '',
-					companyName: '单位名称',
-					companyType: '单位性质',
-					workType: '就业类型', // 个人所做的工作
+					workType: '',
+					companyName: '',
+					isCmp: '',
+					companyType: '',
+					workClass: '',
+					address: '',
 					getDate: '2018-12-13',
 	        		status: '待审核',
 	        		score: 0,
@@ -133,9 +139,12 @@ export default {
 			sessionStorage.setItem('id', row.id)
 			sessionStorage.setItem('name', row.name)
 			sessionStorage.setItem('stuId', row.stuId)
-			sessionStorage.setItem('companyName', row.companyName)
-			sessionStorage.setItem('companyType', row.companyType)
 			sessionStorage.setItem('workType', row.workType)
+			sessionStorage.setItem('companyName', row.companyName)
+			sessionStorage.setItem('isCmp', row.isCmp)
+			sessionStorage.setItem('companyType', row.companyType)
+			sessionStorage.setItem('workClass', row.workClass)
+			sessionStorage.setItem('address', row.address)
 			sessionStorage.setItem('getDate', row.getDate)
 			this.$router.push({name: 'WorkExam', params: {orderId: row.id}})
 		},
