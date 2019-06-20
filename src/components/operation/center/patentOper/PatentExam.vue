@@ -126,6 +126,8 @@ export default {
 		margin: 0 auto;
 	}
 	.content {
+		min-width: 70%;
+		min-height: 80%;
 		display: inline-block;
 		text-align: center;
 		vertical-align: middle;
@@ -134,5 +136,6 @@ export default {
 		margin: 0;
 		border:1px solid #999999;
 		margin-top: 50px;
+		background: #FFFFFF;
 	}
 </style>

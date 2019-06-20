@@ -1,7 +1,7 @@
 <template>
 	<div class="labcenter-main">
 		<el-tabs tab-position="left" type="border-card" style="min-height: 530px; min-width: 11
-		00px" :value="tagPage">			
+		00px;" :value="tagPage">
 			<el-tab-pane label="学生中心" name="stuBaseCenter"><StuBaseCenter /></el-tab-pane>
 			<el-tab-pane label="成绩中心" name="scoreCenter"><ScoreCenter /></el-tab-pane>
 			<el-tab-pane label="综合素质" name="prizeCenter"><PrizeCenter /></el-tab-pane>
@@ -77,4 +77,7 @@ export default {
 		min-width: 1400px;
 		margin: 0 auto;
 	}
+	/*.el-tabs_item {
+		font-style: 70px;
+	}*/
 </style>

@@ -4,7 +4,7 @@
 			<el-form :inline="true" :model="queryData" class="demo-form-inline">
 				<el-form-item>
 					<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange"
-                           :disabled="isDisAble" style="width: 100px">全部
+                           :disabled="isDisAble" style="width: 90px; margin-left: -70px">全部
              		</el-checkbox>
 				</el-form-item>
 				<el-form-item>
@@ -14,13 +14,26 @@
 				</el-form-item>
 
 				<el-form-item label="学号" style="margin-left: 100px">
-					<el-input v-model="queryData.stuId" placeholder="学号" style="width: 150px; margin-right: 20px" size="small"></el-input>
+					<el-input v-model="queryData.stuId" placeholder="学号" style="width: 100px; margin-right: 10px" size="small"></el-input>
 				</el-form-item>
 				<el-form-item label="姓名">
-					<el-input v-model="queryData.stuName" placeholder="姓名" style="width: 150px; margin-right: 20px" size="small"></el-input>
+					<el-input v-model="queryData.stuName" placeholder="姓名" style="width: 100px; margin-right: 10px" size="small"></el-input>
+				</el-form-item>
+				<el-form-item label="论文级别">
+					<el-select v-model="queryData.paperGrade" placeholder="论文级别" size="small" style="width: 125px">
+			            <el-option
+			              v-for="item in paperGrades"
+			              :key="item.value"
+			              :label="item.label"
+			              :value="item.value">
+			            </el-option>
+		          	</el-select>  
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="queryForAdmin" :disabled="isDisAble" size="small">查询</el-button>
+					<el-button type="primary" @click="query" :disabled="isDisAble" size="small">查询</el-button>
+				</el-form-item>
+				<el-form-item >
+					<el-button type="primary"  size="small"  @click="downloadInfo">导出数据</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -40,12 +53,24 @@
 				<el-table-column fixed="right" label="操作" width="140">
 				<template slot-scope="scope">
 					<el-button type="text" size="small" @click="showProofMaterial(scope.$index, scope.row)" v-if="scope.row.proofMaterialId != ''">下载材料</el-button>
-					<el-button type="text" size="small" @click="examPaper(scope.$index, scope.row)" v-if="scope.row.status== '待审核'">审核</el-button>
+					<el-button type="text" size="small" @click="examPaper(scope.$index, scope.row)" v-if="scope.row.status== '待审核' && isTutor == '1'">审核</el-button>
 				</template>
 				</el-table-column>
 			</el-table>
 		</div>
 		<br>
+		<div class="block" style="text-align:center">
+			<el-pagination
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				:current-page="currentPagePaper"
+				:page-sizes="[10]"
+				:page-size="10"
+				layout="total, prev, pager, next, jumper"
+				:total="paperTotal"
+				:disabled="isDisAble">
+			</el-pagination>
+		</div>
 	</div>
 </template>
 
@@ -55,6 +80,9 @@ export default {
 	name: 'PaperCenter',
 	data () {
 		return {
+			isTutor:'',
+			currentPagePaper: 1,
+			allStuPaper: 1,
 			isDisAble: false,
 			loading: true,
 			paperData: [
@@ -81,28 +109,133 @@ export default {
 	        	status: ['待审核'],
 	        	state: sessionStorage.getItem("state"),
 	        	stuId: '',
-	        	stuName: ''
+	        	stuName: '',
+	        	paperGrade: '',
+	        	page: ''
 	        },
+	        paperGrades: [{
+	          value: 1,
+	          label: "一般"
+	        },{
+	          value: 2,
+	          label: "核心"
+	        },{
+	          value: 3,
+	          label: "一级"
+	        },{
+	          value: 4,
+	          label: "EI"
+	        },{
+	          value: 5,
+	          label: "SCI一区"
+	        },{
+	          value: 6,
+	          label: "SCI二区"
+	        },{
+	          value: 7,
+	          label: "SCI三区"
+	        },{
+	          value: 8,
+	          label: "SCI四区"
+	        }],
 		}
 	},
 	created(){
+		this.isTutor = sessionStorage.getItem("state")
+		this.getSession()
 		this.queryForAdmin()
 	},
 	computed: {
+		paperTotal() {
+			return this.allStuPaper
+		}
     },
 	methods: {
+		getSession() {
+			if (sessionStorage.getItem('stuPaperPage') != null) {
+				this.queryData.page = parseInt(sessionStorage.getItem('stuPaperPage'))
+				this.currentPagePaper = parseInt(sessionStorage.getItem('stuPaperPage'))
+			} else {
+				this.queryData.page = 1
+				this.currentPagePaper = 1
+			}
+			if (sessionStorage.getItem('checkedItermsPaper') != null){
+				this.checkedIterms = sessionStorage.getItem('checkedItermsPaper').split(',')
+				this.queryData.status = this.checkedIterms
+			} else {
+				this.queryData.status = this.checkedIterms
+			}
+			if (sessionStorage.getItem('allStuPaper') != null) {
+				this.allStuPaper = parseInt(sessionStorage.getItem('allStuPaper'))
+			} else {
+				this.queryAllStuPaperNum()
+			}
+			if (sessionStorage.getItem('stuPaperStuId') != null) {
+				this.queryData.stuId = sessionStorage.getItem('stuPaperStuId')
+			}
+			if (sessionStorage.getItem('stuPaperStuName') != null) {
+				this.queryData.stuName = sessionStorage.getItem('stuPaperStuName')
+			}
+		},
+		setSession() {
+			sessionStorage.setItem('stuPaperPage', this.queryData.page),
+			sessionStorage.setItem('stuPaperStuId', this.queryData.stuId),
+			sessionStorage.setItem('stuPaperStuName', this.queryData.stuName)
+		},
+		queryAllStuPaperNum() {
+			this.queryData.page = 1
+			var submitData ={
+				userId: this.queryData.userId,
+				status: this.queryData.status,
+				state: this.queryData.state,
+				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%',
+				paperGrade: this.queryData.paperGrade == '' ? '%' : this.queryData.paperGrade,
+				page: this.queryData.page
+			}
+			this.setSession()			
+			this.$http.ShowStuPaperNum(submitData).then((result) => {
+				if (result.c == 200) {
+					this.currentPagePaper = 1
+					this.allStuPaper = result.r
+					sessionStorage.setItem('allStuPaper' , this.allStuPaper)
+				} else {
+					this.allStuPaper = 1
+					this.currentPagePaper = 1
+					this.$message.error(result.r)
+				}
+			}, (err) => {
+	            this.$message.error(err.msg)
+	        })
+			// todo
+		},
+		handleSizeChange(val) {
+		},
+		handleCurrentChange(val) {
+			this.queryData.page = val
+			this.queryForAdmin()
+		},
+		query() {
+			this.currentPagePaper = '1'
+			this.queryAllStuPaperNum()
+			this.queryForAdmin()
+		},
+
 		queryForAdmin(){
 			var submitData ={
 				userId: this.queryData.userId,
 				status: this.queryData.status,
 				state: this.queryData.state,
 				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
-				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%'
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%',
+				paperGrade: this.queryData.paperGrade == '' ? '%' : this.queryData.paperGrade,
+				page: this.queryData.page
 			}
 			this.isDisAble = true
 			this.$http.ShowPapersForTeacher(submitData).then((result) => {
 				if (result.c == 200) {
 					this.paperData = result.r
+					this.setSession()
 				} else {
 					this.paperData = []
 				}
@@ -117,9 +250,9 @@ export default {
 			if (this.checkedIterms.length == 0) {
 				return
 			}
-			sessionStorage.setItem('checkedIterms', this.checkedIterms)
-			this.queryData.status = sessionStorage.getItem('checkedIterms').split(',')
-			this.queryForAdmin()
+			sessionStorage.setItem('checkedItermsPaper', this.checkedIterms)
+			this.queryData.status = sessionStorage.getItem('checkedItermsPaper').split(',')
+			this.query()
 		},
 		handleCheckedItermsChange(value) {
 			let checkedCount = value.length
@@ -128,9 +261,9 @@ export default {
 			if (this.checkedIterms.length == 0) {
 				return
 			}
-			sessionStorage.setItem('checkedIterms', this.checkedIterms)
-			this.queryData.status = sessionStorage.getItem('checkedIterms').split(',')
-			this.queryForAdmin()
+			sessionStorage.setItem('checkedItermsPaper', this.checkedIterms)
+			this.queryData.status = sessionStorage.getItem('checkedItermsPaper').split(',')
+			this.query()
 		},
 		examPaper(index, row){
 			sessionStorage.setItem('id', row.id)
@@ -149,6 +282,27 @@ export default {
 		showProofMaterial(index, row){
 			window.open('http://129.204.15.161:7070/api/file/downloadFile?fileName=' + row.proofMaterialId)
 		},
+		downloadInfo() {
+			var submitData ={
+				userId: this.queryData.userId,
+				status: this.queryData.status,
+				state: this.queryData.state,
+				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%',
+				paperGrade: this.queryData.paperGrade == '' ? '%' : this.queryData.paperGrade
+			}
+			this.$http.DownPapersForTeacher(submitData).then((result) => {
+				if (result.c == 200) {
+					window.open('http://129.204.15.161:7070/api/file/downloadExcel?fileName=' + result.r)
+				} else {
+					this.$message.error(result.r)
+				}
+				this.isDisAble = false
+			}, (err) => {
+	            this.$message.error(err.msg)
+	        })
+
+		}
 	},
 	components: {
 	},

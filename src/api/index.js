@@ -207,14 +207,74 @@ export default {
   DownloadFile(params){
     return fetch('file/downloadFile', params)
   },
-  DownStusForTeacher(params){
-    return fetch('admin/downStusForTeacher', params)
-  },
 
   ShowProjectsForTeacher(params){
     return fetch('/admin/showProjectsForTeacher', params)
   },
   ExamProject(params){
     return fetch('/admin/examProject', params)
+  },
+
+  ShowStuBaseNum(params){
+    return fetch('/admin/showstubasenum', params)
+  },
+  ShowStuScoreNum(params){
+    return fetch('/admin/showstuscorenum', params)
+  },
+  ShowStuPrizeNum(params){
+    return fetch('/admin/showstuprizenum', params)
+  },
+  ShowStuHonorNum(params){
+    return fetch('/admin/showstuhonornum', params)
+  },
+  ShowStuPaperNum(params){
+    return fetch('/admin/showstupapernum', params)
+  },
+  ShowStuPatentNum(params){
+    return fetch('/admin/showstupatentnum', params)
+  },
+  ShowStuCompetitionNum(params){
+    return fetch('/admin/showstucompetitionnum', params)
+  },
+  ShowStuProjectNum(params){
+    return fetch('/admin/showstuprojectnum', params)
+  },
+  ShowStuAcadExchNum(params){
+    return fetch('/admin/showstuacadexchnum', params)
+  },
+  ShowStuWorkNum(params){
+    return fetch('/admin/showstuworknum', params)
+  },
+  ShowStuMasterPaperNum(params){
+    return fetch('/admin/showstumasterpapernum', params)
+  },
+
+
+  DownStusForTeacher(params){
+    return fetch('admin/downStusForTeacher', params)
+  },
+  DownHonorsForTeacher(params){
+    return fetch('admin/downHonorsForTeacher', params)
+  },
+  DownPapersForTeacher(params){
+    return fetch('admin/downPapersForTeacher', params)
+  },
+  DownPatentsForTeacher(params){
+    return fetch('admin/downPatentsForTeacher', params)
+  },
+  DownCompesForTeacher(params){
+    return fetch('admin/downCompesForTeacher', params)
+  },
+  DownProjectsForTeacher(params){
+    return fetch('admin/downProjectsForTeacher', params)
+  },
+  DownAcadExchsForTeacher(params){
+    return fetch('admin/downAcadExchsForTeacher', params)
+  },
+  DownWorksForTeacher(params){
+    return fetch('admin/downWorksForTeacher', params)
+  },
+  DownMasterPapersForTeacher(params){
+    return fetch('admin/downMasterPapersForTeacher', params)
   },
 }

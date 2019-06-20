@@ -10,7 +10,7 @@
 					<el-input v-model="queryData.stuName" placeholder="姓名" style="width: 150px; margin-right: 20px" size="small"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="queryForAdmin" :disabled="isDisAble" size="small">查询</el-button>
+					<el-button type="primary" @click="query" :disabled="isDisAble" size="small">查询</el-button>
 				</el-form-item>
 
 				<el-form-item style="margin-left: 300px">
@@ -42,15 +42,27 @@
 				<el-table-column prop="workNum" label="排名" width="78"></el-table-column>	
 				<el-table-column prop="masterScore" label="硕士论文" width="78"></el-table-column>
 				<el-table-column prop="masterNum" label="排名" width="78"></el-table-column>
-				<!-- <el-table-column fixed="right" label="操作" width="140">
-				<template slot-scope="scope">
-					<el-button type="text" size="small" @click="showProofMaterial(scope.$index, scope.row)">下载材料</el-button>
-					<el-button type="text" size="small" @click="showDetails(scope.$index, scope.row)">查看详情</el-button>
-				</template>
+			<!-- 	<el-table-column fixed="right" label="操作" width="140">
+					<template slot-scope="scope">
+						<el-button type="text" size="small" @click="showProofMaterial(scope.$index, scope.row)">下载材料</el-button>
+						<el-button type="text" size="small" @click="showDetails(scope.$index, scope.row)">查看详情</el-button>
+					</template>
 				</el-table-column> -->
 			</el-table>
 		</div>
 		<br>
+		<div class="block" style="text-align:center">
+			<el-pagination
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				:current-page="currentPagePrize"
+				:page-sizes="[10]"
+				:page-size="10"
+				layout="total, prev, pager, next, jumper"
+				:total="prizeTotal"
+				:disabled="isDisAble">
+			</el-pagination>
+		</div>
 	</div>
 </template>
 
@@ -59,6 +71,8 @@ export default {
 	name: 'PrizeCenter',
 	data () {
 		return {
+			currentPagePrize: 1,
+			allStuPrize: 1,
 			isDisAble: false,
 			loading: true,
 			allPrizeData: [
@@ -95,28 +109,97 @@ export default {
 	        	userId: sessionStorage.getItem("userId"),
 	        	state: sessionStorage.getItem("state"),
 	        	stuId: '',
-	        	stuName: ''
+	        	stuName: '',
+	        	page: 1
 	        },
 		}
 	},
 	created(){
+		this.getSession()
 		this.queryForAdmin()
 	},
 	computed: {
+		prizeTotal() {
+			return this.allStuPrize
+		}
     },
 	methods: {
+		getSession() {
+			if (sessionStorage.getItem('stuPrizePage') != null) {
+				this.queryData.page = parseInt(sessionStorage.getItem('stuPrizePage'))
+				this.currentPagePrize = parseInt(sessionStorage.getItem('stuPrizePage'))
+			} else {
+				this.queryData.page = 1
+				this.currentPagePrize = 1
+			}
+			if (sessionStorage.getItem('allStuPrize') != null) {
+				this.allStuPrize = parseInt(sessionStorage.getItem('allStuPrize'))
+			} else {
+				this.queryAllStuPrizeNum()
+			}
+			if (sessionStorage.getItem('stuPrizeStuId') != null) {
+				this.queryData.stuId = sessionStorage.getItem('stuPrizeStuId')
+			}
+			if (sessionStorage.getItem('stuPrizeStuName') != null) {
+				this.queryData.stuName = sessionStorage.getItem('stuPrizeStuName')
+			}
+		},
+		setSession() {
+			sessionStorage.setItem('stuPrizePage', this.queryData.page),
+			sessionStorage.setItem('stuPrizeStuId', this.queryData.stuId),
+			sessionStorage.setItem('stuPrizeStuName', this.queryData.stuName)
+		},
+		queryAllStuPrizeNum() {
+			this.queryData.page = 1
+			var submitData ={
+				userId: this.queryData.userId,
+				status: this.queryData.status,
+				state: this.queryData.state,
+				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%',
+				page: this.queryData.page
+			}
+			this.setSession()			
+			this.$http.ShowStuPrizeNum(submitData).then((result) => {
+				if (result.c == 200) {
+					this.currentPagePrize = 1
+					this.allStuPrize = result.r
+					sessionStorage.setItem('allStuPrize' , this.allStuPrize)
+				} else {
+					this.allStuPrize = 1
+					this.currentPagePrize = 1
+					this.$message.error(result.r)
+				}
+			}, (err) => {
+	            this.$message.error(err.msg)
+	        })
+			// todo
+		},
+		handleSizeChange(val) {
+		},
+		handleCurrentChange(val) {
+			this.queryData.page = val
+			this.queryForAdmin()
+		},
+		query() {
+			this.currentPagePrize = '1'
+			this.queryAllStuPrizeNum()
+			this.queryForAdmin()
+		},
 		queryForAdmin(){
 			var submitData ={
 				userId: this.queryData.userId,
 				status: this.queryData.status,
 				state: this.queryData.state,
 				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
-				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%'
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%',
+				page: this.queryData.page
 			}
 			this.isDisAble = true
 			this.$http.ShowPrizesForTeacher(submitData).then((result) => {
 				if (result.c == 200) {
 					this.allPrizeData = result.r
+					this.setSession()
 				} else {
 					this.allPrizeData = []
 				}
@@ -135,23 +218,7 @@ export default {
 			// sessionStorage.setItem('getDate', row.getDate)
 			// this.$router.push({name: 'WorkExam', params: {orderId: row.id}})
 		},
-		showProofMaterial(index, row){
-			this.$confirm('文件名 ' + row.proofMaterialId, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-		},
+		
 	},
 	components: {
 	},

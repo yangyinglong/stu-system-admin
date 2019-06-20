@@ -10,7 +10,7 @@
 					<el-input v-model="queryData.stuName" placeholder="姓名" style="width: 150px; margin-right: 20px" size="small"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="queryForAdmin" :disabled="isDisAble" size="small">查询</el-button>
+					<el-button type="primary" @click="query" :disabled="isDisAble" size="small">查询</el-button>
 				</el-form-item>
 
 				<el-form-item style="margin-left: 300px">
@@ -44,6 +44,18 @@
 			</el-table>
 		</div>
 		<br>
+		<div class="block" style="text-align:center">
+			<el-pagination
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				:current-page="currentPage"
+				:page-sizes="[10]"
+				:page-size="10"
+				layout="total, prev, pager, next, jumper"
+				:total="stuTotal"
+				:disabled="isDisAble">
+			</el-pagination>
+		</div>
 	</div>
 </template>
 
@@ -51,7 +63,11 @@
 export default {
 	name: 'StuBaseCenter',
 	data () {
-		return {
+		return {			
+			currentPage: 1,
+			allStuBaseNumber: 1,
+
+
 			isDisAble: false,
 			loading: true,
 			stuData: [
@@ -70,22 +86,8 @@ export default {
 					sex: '',
 					tuturName: '',
 					counsellorName: '',
-
-					// stuId: '',
-					// name: '',
-					// sex: '',
-					// phone: '',
-					// uSchool: '',
-					// uMajor: '',
-					// tutor: '',
-					// counsellor: '',
 					languagesTypes: '',
 					languagesScore: '',
-					// english: '',
-					// political: '',
-					// math: '',
-					// specialized: '',
-
 					idCard: '',
 				    masterMajor: '',
 				    politicalOutlook: '',
@@ -95,7 +97,6 @@ export default {
 				    emergencyContact: '',
 				    emergencyPhone: '',
 				    secretary: '',  // 研究生秘书
-
 				    averageScore: '',
  					currNumber: '',
 				}			
@@ -104,28 +105,92 @@ export default {
 	        	userId: sessionStorage.getItem("userId"),
 	        	state: sessionStorage.getItem("state"),
 	        	stuId: '',
-	        	stuName: ''
+	        	stuName: '',
+	        	page: 1
 	        },
 		}
 	},
 	created(){
+		this.getSession()
 		this.queryForAdmin()
 	},
 	computed: {
+		stuTotal() {
+			return this.allStuBaseNumber
+		}
     },
 	methods: {
+		getSession() {
+			if (sessionStorage.getItem('stuBasePage') != null) {
+				this.queryData.page = parseInt(sessionStorage.getItem('stuBasePage'))
+				this.currentPage = parseInt(sessionStorage.getItem('stuBasePage'))
+			} else {
+				this.queryData.page = 1
+				this.currentPage = 1
+			}
+			if (sessionStorage.getItem('allStuBaseNumber') != null) {
+				this.allStuBaseNumber = parseInt(sessionStorage.getItem('allStuBaseNumber'))
+			} else {
+				this.queryAllStuBaseNum()
+			}
+			if (sessionStorage.getItem('stuBaseStuId') != null) {
+				this.queryData.stuId = sessionStorage.getItem('stuBaseStuId')
+			}
+			if (sessionStorage.getItem('stuBaseStuName') != null) {
+				this.queryData.stuName = sessionStorage.getItem('stuBaseStuName')
+			}
+		},
+		setSession() {
+			sessionStorage.setItem('stuBasePage', this.queryData.page),
+			sessionStorage.setItem('stuBaseStuId', this.queryData.stuId),
+			sessionStorage.setItem('stuBaseStuName', this.queryData.stuName)
+		},
+		queryAllStuBaseNum() {
+			this.queryData.page = 1
+			var submitData ={
+				userId: this.queryData.userId,
+				status: this.queryData.status,
+				state: this.queryData.state,
+				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%',
+				page: this.queryData.page
+			}
+			this.setSession()			
+			this.$http.ShowStuBaseNum(submitData).then((result) => {
+				if (result.c == 200) {
+					this.currentPage = 1
+					this.allStuBaseNumber = result.r
+					sessionStorage.setItem('allStuBaseNumber' , this.allStuBaseNumber)
+				} else {
+					this.allStuBaseNumber = 1
+					this.currentPage = 1
+					this.$message.error(result.r)
+				}
+			}, (err) => {
+	            this.$message.error(err.msg)
+	        })
+			// todo
+		},
+		handleSizeChange(val) {
+		},
+		handleCurrentChange(val) {
+			this.queryData.page = val
+			this.queryForAdmin()
+		},
 		queryForAdmin(){
 			var submitData ={
 				userId: this.queryData.userId,
 				status: this.queryData.status,
 				state: this.queryData.state,
 				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
-				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%'
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%',
+				page: this.queryData.page
 			}
 			this.isDisAble = true
 			this.$http.ShowStusForTeacher(submitData).then((result) => {
 				if (result.c == 200) {
 					this.stuData = result.r
+					this.setSession()
 				} else {
 					this.stuData = []
 				}
@@ -133,6 +198,12 @@ export default {
 			}, (err) => {
 	            this.$message.error(err.msg)
 	        })
+		},
+		query() {
+			this.queryData.status = this.checkedIterms
+			this.currentPage = '1'
+			this.queryAllStuBaseNum()
+			this.queryForAdmin()
 		},
 		showDetails(index, row){
 			sessionStorage.setItem('name', row.name)
@@ -173,6 +244,7 @@ export default {
 			this.$http.DownStusForTeacher(submitData).then((result) => {
 				if (result.c == 200) {
 					window.open('http://129.204.15.161:7070/api/file/downloadExcel?fileName=' + result.r)
+					// window.open('http://127.0.0.1:7070/api/file/downloadExcel?fileName=' + result.r)
 				} else {
 					this.$message.error(result.r)
 				}

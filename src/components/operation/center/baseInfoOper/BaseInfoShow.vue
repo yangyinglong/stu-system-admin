@@ -1,7 +1,8 @@
 <template>
-	<div style="margin: 0 auto; min-height: 550px">
-		<div style="text-align:center; margin-top: 20px;">
-			<el-form :inline="true" :model="baseInfo" class="demo-form-inline" style="width: 100%" label-width="70px">
+	<div class="lab-main">
+		<div class="content">
+			<!-- <div style="height: 10px"></div> -->
+			<el-form :inline="true" :model="baseInfo" class="demo-form-inline" style="width: 100%; margin-top: 20px" label-width="70px">
 			  <el-form-item label="学号">
 			    <el-input v-model="baseInfo.stuId" placeholder="学号" readonly="true" style="width: 150px"></el-input>
 			  </el-form-item>
@@ -206,8 +207,24 @@ export default {
 </script>
 
 <style scoped>
-	.labcenter-main{
-		width: 70%;
+	.lab-main{
+		margin-top: -20px;
+		min-height: 530px;
+		text-align: center;
 		margin: 0 auto;
+	}
+	.content {
+
+		min-width: 70%;
+		min-height: 80%;
+		display: inline-block;
+		text-align: center;
+		vertical-align: middle;
+		horiz-align: center;
+		white-space: nowrap;
+		margin: 0;
+		border:1px solid #999999;
+		margin-top: 50px;
+		background: #FFFFFF;
 	}
 </style>

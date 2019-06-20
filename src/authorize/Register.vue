@@ -1,40 +1,103 @@
 <template>
-	<div class="register-main">
-		<el-form label-position='left' :model="registerData" status-icon :rules="rules" ref="registerData" label-width="100px" class="demo-ruleForm">
-			<br><br>
-			<el-form-item label="教师号：" prop="stuId">
-            	<el-input v-model="registerData.stuId" placeholder="用户登录"></el-input>
-            </el-form-item>
-            <el-form-item label="姓名：" prop="name">
-            	<el-input v-model="registerData.name" placeholder="请输入姓名"></el-input>
-            </el-form-item>
-            <el-form-item label="身份" prop="sex">
-				<el-select v-model="registerData.sex" placeholder="请选择" style="width: 300px">
-					<el-option
-						v-for="item in options"
-						:key="item.value"
-						:label="item.label"
-						:value="item.value">
-					</el-option>
-				</el-select>            	
-            </el-form-item>
-            <el-form-item label="手机号码：" prop="phone">
-            	<el-input v-model="registerData.phone" placeholder="用户登录和找回密码"></el-input>
-            </el-form-item>
-			<el-form-item label="密码：" prop="password">
-				<el-input type="password" v-model="registerData.password" autocomplete="off"></el-input>
-			</el-form-item>
-			<el-form-item label="确认密码：" prop="checkPass">
-				<el-input type="password" v-model="registerData.checkPass" autocomplete="off"></el-input>
-			</el-form-item>
-			<el-form-item label="" prop="validateCode">
-				<el-checkbox v-model="registerData.checked">阅读并接受<u>《杭电学生信息管理协议》</u></el-checkbox>
+	<div class="lab-main">
+		<div class="content">
+			<!-- <el-form label-position='left' :model="registerData" status-icon :rules="rules" ref="registerData" label-width="100px" class="demo-ruleForm">
 				<br><br>
-				<el-button style="width:310px; float: right; background-color: #d7d7d7;" @click="register('registerData')">
-				注册
-				</el-button>
-			</el-form-item>
-		</el-form>
+				<el-form-item label="教师号：" prop="stuId">
+	            	<el-input v-model="registerData.stuId" placeholder="用户登录"></el-input>
+	            </el-form-item>
+	            <el-form-item label="姓名：" prop="name">
+	            	<el-input v-model="registerData.name" placeholder="请输入姓名"></el-input>
+	            </el-form-item>
+	            <el-form-item label="身份" prop="sex">
+					<el-select v-model="registerData.sex" placeholder="请选择" style="width: 300px">
+						<el-option
+							v-for="item in options"
+							:key="item.value"
+							:label="item.label"
+							:value="item.value">
+						</el-option>
+					</el-select>            	
+	            </el-form-item>
+	            <el-form-item label="手机号码：" prop="phone">
+	            	<el-input v-model="registerData.phone" placeholder="用户登录和找回密码"></el-input>
+	            </el-form-item>
+				<el-form-item label="密码：" prop="password">
+					<el-input type="password" v-model="registerData.password" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="确认密码：" prop="checkPass">
+					<el-input type="password" v-model="registerData.checkPass" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="" prop="validateCode">
+					<el-checkbox v-model="registerData.checked">阅读并接受<u>《杭电学生信息管理协议》</u></el-checkbox>
+					<br><br>
+					<el-button style="width:310px; float: right; background-color: #d7d7d7;" @click="register('registerData')">
+					注册
+					</el-button>
+				</el-form-item>
+			</el-form> -->
+
+			<el-form :inline="true" :model="registerData" :rules="rules" class="demo-form-inline" style="width: 100%; margin-top: 30px" label-width="100px">
+			 	<el-form-item label="教师号：" prop="stuId">
+	            	<el-input v-model="registerData.stuId" placeholder="用户登录" style="width: 300px"></el-input>
+	            </el-form-item>
+			</el-form>
+
+			<el-form :inline="true" :model="registerData" :rules="rules" class="demo-form-inline" style="width: 100%" label-width="100px">
+			 	<el-form-item label="姓名：" prop="name">
+	            	<el-input v-model="registerData.name" placeholder="请输入姓名" style="width: 300px"></el-input>
+	            </el-form-item>
+			</el-form>
+
+			<el-form :inline="true" :model="registerData" :rules="rules" class="demo-form-inline" style="width: 100%" label-width="100px">
+			 	<el-form-item label="身份" prop="sex">
+					<el-select v-model="registerData.sex" placeholder="请选择" style="width: 300px">
+						<el-option
+							v-for="item in options"
+							:key="item.value"
+							:label="item.label"
+							:value="item.value">
+						</el-option>
+					</el-select>            	
+	            </el-form-item>
+			</el-form>
+
+			<el-form :inline="true" :model="registerData" :rules="rules" class="demo-form-inline" style="width: 100%" label-width="100px">
+			 	<el-form-item label="手机号码：" prop="phone">
+	            	<el-input v-model="registerData.phone" placeholder="用户登录和找回密码" style="width: 300px"></el-input>
+	            </el-form-item>
+			</el-form>
+
+			<el-form :inline="true" :model="registerData" :rules="rules" class="demo-form-inline" style="width: 100%" label-width="100px">
+			 	<el-form-item label="密码：" prop="password">
+	            	<el-input type="password" v-model="registerData.password" placeholder="请输入密码" style="width: 300px"></el-input>
+	            </el-form-item>
+			</el-form>
+
+			<el-form :inline="true" :model="registerData" :rules="rules" class="demo-form-inline" style="width: 100%" label-width="100px">
+			 	<el-form-item label="确认密码：" prop="checkPass">
+	            	<el-input type="password" v-model="registerData.checkPass" placeholder="请输入密码" style="width: 300px"></el-input>
+	            </el-form-item>
+			</el-form>
+
+			<el-form :inline="true" :model="registerData" :rules="rules" class="demo-form-inline" style="width: 100%" label-width="100px">
+			 	<el-form-item label="" prop="checkPass">
+	            	<el-checkbox v-model="registerData.checked">阅读并接受<u>《杭电学生信息管理协议》</u></el-checkbox>
+					<br><br>
+	            </el-form-item>
+			</el-form>
+
+			<el-form :inline="true" :model="registerData" :rules="rules" ref="registerData" class="demo-form-inline" style="width: 100%" label-width="100px">
+			 	<el-form-item label="">
+	            	<el-button style="width:310px; float: right; background-color: #d7d7d7;" @click="register('registerData')">
+					注册
+					</el-button>
+	            </el-form-item>
+			</el-form>
+
+
+			
+		</div>
 	</div>
 </template>
 
@@ -172,9 +235,24 @@
 </script>
 
 <style scoped>
-	.register-main{
-		width: 400px;
-		height: 530px;
+	.lab-main{
+		margin-top: -20px;
+		min-height: 530px;
+		text-align: center;
 		margin: 0 auto;
+	}
+	.content {
+
+		min-width: 70%;
+		min-height: 80%;
+		display: inline-block;
+		text-align: center;
+		vertical-align: middle;
+		horiz-align: center;
+		white-space: nowrap;
+		margin: 0;
+		border:1px solid #999999;
+		margin-top: 50px;
+		background: #FFFFFF;
 	}
 </style>

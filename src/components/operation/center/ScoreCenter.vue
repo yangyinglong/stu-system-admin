@@ -1,5 +1,5 @@
 <template>
-	<div style="margin: 0 auto; height: 550px">
+	<div style="margin: 0 auto">
 		<div style="margin-top: 20px; margin-left: 120px; height: 64px">
 			<el-form :inline="true" :model="queryData" class="demo-form-inline">
 
@@ -10,7 +10,7 @@
 					<el-input v-model="queryData.stuName" placeholder="姓名" style="width: 150px; margin-right: 20px" size="small"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="queryForAdmin" :disabled="isDisAble" size="small">查询</el-button>
+					<el-button type="primary" @click="query" :disabled="isDisAble" size="small">查询</el-button>
 				</el-form-item>
 
 				<el-form-item style="margin-left: 300px">
@@ -47,6 +47,19 @@
 				</el-table-column>
 			</el-table>
 		</div>
+		<br>
+		<div class="block" style="text-align:center">
+			<el-pagination
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				:current-page="currentPageScore"
+				:page-sizes="[10]"
+				:page-size="10"
+				layout="total, prev, pager, next, jumper"
+				:total="scoreTotal"
+				:disabled="isDisAble">
+			</el-pagination>
+		</div>
 	</div>
 </template>
 
@@ -55,6 +68,9 @@ export default {
 	name: 'ScoreCenter',
 	data () {
 		return {
+			currentPageScore: 1,
+			allStuScore: 1,
+
 			isDisAble: false,
 			loading: true,
 			scoresFrom: [
@@ -86,23 +102,91 @@ export default {
 	        	userId: sessionStorage.getItem("userId"),
 	        	state: sessionStorage.getItem("state"),
 	        	stuId: '',
-	        	stuName: ''
+	        	stuName: '',
+	        	page: 1
 	        },
 		}
 	},
 	created(){
+		this.getSession()
 		this.queryForAdmin()
 	},
 	computed: {
+		scoreTotal() {
+			return this.allStuScore
+		}
     },
 	methods: {
+		getSession() {
+			if (sessionStorage.getItem('stuSocrePage') != null) {
+				this.queryData.page = parseInt(sessionStorage.getItem('stuSocrePage'))
+				this.currentPageScore = parseInt(sessionStorage.getItem('stuSocrePage'))
+			} else {
+				this.queryData.page = 1
+				this.currentPageScore = 1
+			}
+			if (sessionStorage.getItem('allStuScore') != null) {
+				this.allStuScore = parseInt(sessionStorage.getItem('allStuScore'))
+			} else {
+				this.queryAllStuScoreNum()
+			}
+			if (sessionStorage.getItem('stuScoreStuId') != null) {
+				this.queryData.stuId = sessionStorage.getItem('stuScoreStuId')
+			}
+			if (sessionStorage.getItem('stuScoreStuName') != null) {
+				this.queryData.stuName = sessionStorage.getItem('stuScoreStuName')
+			}
+		},
+		setSession() {
+			sessionStorage.setItem('stuSocrePage', this.queryData.page),
+			sessionStorage.setItem('stuScoreStuId', this.queryData.stuId),
+			sessionStorage.setItem('stuScoreStuName', this.queryData.stuName)
+		},
+		queryAllStuScoreNum() {
+			this.queryData.page = 1
+			var submitData ={
+				userId: this.queryData.userId,
+				status: this.queryData.status,
+				state: this.queryData.state,
+				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%',
+				page: this.queryData.page
+			}
+			this.setSession()			
+			this.$http.ShowStuScoreNum(submitData).then((result) => {
+				if (result.c == 200) {
+					this.currentPageScore = 1
+					this.allStuScore = result.r
+					sessionStorage.setItem('allStuScore' , this.allStuScore)
+				} else {
+					this.allStuScore = 1
+					this.currentPageScore = 1
+					this.$message.error(result.r)
+				}
+			}, (err) => {
+	            this.$message.error(err.msg)
+	        })
+			// todo
+		},
+		handleSizeChange(val) {
+		},
+		handleCurrentChange(val) {
+			this.queryData.page = val
+			this.queryForAdmin()
+		},
+		query() {
+			this.currentPageScore = '1'
+			this.queryAllStuScoreNum()
+			this.queryForAdmin()
+		},
 		queryForAdmin(){
 			var submitData ={
 				userId: this.queryData.userId,
 				status: this.queryData.status,
 				state: this.queryData.state,
 				stuId: this.queryData.stuId == '' ? '%' : this.queryData.stuId + '%',
-				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%'
+				stuName: this.queryData.stuName == '' ? '%' : '%' + this.queryData.stuName + '%',
+				page: this.queryData.page
 			}
 			this.isDisAble = true
 			this.$http.ShowScoresForTeacher(submitData).then((result) => {
@@ -149,6 +233,7 @@ export default {
 						}
 					}
 					this.scoresFrom = result.r
+					this.setSession()
 				} else {
 					this.scoresFrom = []
 				}

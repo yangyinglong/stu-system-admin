@@ -22,5 +22,6 @@ export default {
 <style>
 #app {
   /*background: #C9C9C9*/
+  background: url('assets/background.jpg') center center no-repeat;
 }
 </style>
